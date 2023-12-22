@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
+import javax.swing.Timer;
 import java.awt.event.*;
 import static java.lang.Thread.sleep;
 import javax.swing.*;
@@ -31,7 +31,8 @@ public class MainFrame extends javax.swing.JFrame {
         
         
     }
-    Thread t = new Thread();
+      private Timer timer;
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,6 +57,8 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         workLabel = new javax.swing.JLabel();
+        stateCB = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -175,6 +178,16 @@ public class MainFrame extends javax.swing.JFrame {
         workLabel.setForeground(new java.awt.Color(51, 51, 255));
         workLabel.setText("work!!");
 
+        stateCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pomodoro", "break" }));
+        stateCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stateCBActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Simplified Arabic", 2, 14)); // NOI18N
+        jLabel6.setText("Select the state:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -191,9 +204,15 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(breakTimeCB, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(itemsSelectCB, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(itemsSelectCB, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(stateCB, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(40, 40, 40))
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
@@ -236,7 +255,10 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(breakTimeCB, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(stateCB, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel6)))
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pauseB, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -267,17 +289,21 @@ public class MainFrame extends javax.swing.JFrame {
         if(seconds != 0||  minutes != 0 || milisec != 0){
          pauseB.setVisible(false);
         }        
+        timer.stop();
         flag = false;
         startB.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_pauseBActionPerformed
        public  void loadProjectNames() {
+        int temp = itemsSelectCB.getSelectedIndex();
         itemsSelectCB.removeAllItems(); // Clear existing items
 
         // Iterate through projects and add project names to the combo box
         for (Project project : Global.projects) {
             itemsSelectCB.addItem(project.name);
         }
+        if(temp == -1) temp =0;
+        itemsSelectCB.setSelectedIndex(temp);
     }
 
     private void projectsBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_projectsBActionPerformed
@@ -285,123 +311,97 @@ public class MainFrame extends javax.swing.JFrame {
               
               form2.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_projectsBActionPerformed
-
+      
     private void startBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBActionPerformed
-        pomoTimeCB.setEnabled(false);
-        breakTimeCB.setEnabled(false);
-        itemsSelectCB.setEnabled(false);
-        startB.setVisible(false);
-         pauseB.setVisible(true);
-           t = new Thread(){
-          public void run (){
-                  
-              for(;;){
-                  
-                  if(flag == true){
-                      
-                      try {
-                          sleep(1);
-                          if(milisec > 1000){
-                              milisec = 0 ;
-                              seconds++;
-                          }
-                                                    if(seconds >= 60){
-                              seconds = 0 ;
-                              
-                              
-                                  if(Global.workflag){
-         String selectedItem = itemsSelectCB.getSelectedItem().toString();
-                         for (Project project : Global.projects) {
-                     if(selectedItem == project.name)project.addToPomo(1);
+    pomoTimeCB.setEnabled(false);
+    breakTimeCB.setEnabled(false);
+    itemsSelectCB.setEnabled(false);
+    stateCB.setEnabled(false);
+    startB.setVisible(false);
+    pauseB.setVisible(true);
+
+    int delay = 1000;  // Delay in milliseconds (1000ms = 1 second)
+    timer = new Timer(delay, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Code to be executed at each timer tick
+            if (flag == true) {
+                try {
+
+                    if (seconds >= 60) {
+                     if (Global.workflag) {
+                            String selectedItem = itemsSelectCB.getSelectedItem().toString();
+                            for (Project project : Global.projects) {
+                                if (selectedItem.equals(project.name)) {
+                                    project.addToPomo(1);
+                                }
+                            }
+                        } else {
+                            String selectedItem = itemsSelectCB.getSelectedItem().toString();
+                            for (Project project : Global.projects) {
+                                if (selectedItem.equals(project.name)) {
+                                    project.addToBreak(1);
+                                }
+                            }
+                        }
+
+                        minutes++;
+                        seconds = 0;
+                    
+                    }
+                    seconds++;
+
+                    SwingUtilities.invokeLater(() -> {
+                        String seconds_string = String.format("%02d", seconds);
+                        String minutes_string = String.format("%02d", minutes);
+                        String Zero = "0";
+                        if (seconds_string.length() == 1) {
+                            seconds_string = Zero.concat(seconds_string);
+                        }
+                        if (minutes_string.length() == 1) {
+                            minutes_string = Zero.concat(minutes_string);
+                        }
+                        String all = String.format(" %s:%s ", minutes_string, seconds_string);
+                        ourClockLabel.setText(all);
+
+                        String s1;
+                        if (Global.workflag) {
+                            s1 = pomoTimeCB.getSelectedItem().toString();
+                        } else {
+                            s1 = breakTimeCB.getSelectedItem().toString();
+                        }
+
+                        if (minutes == Integer.parseInt(s1)) {
+                            stopB.doClick();  // Stop the Timer
+                            if (Global.workflag) {
+                                workLabel.setText("break yeessss");
+                                stateCB.setEnabled(true);
+                                stateCB.setSelectedIndex(1);
+                                stateCB.setEnabled(false);
+                            } else {
+                                workLabel.setText("work!!");
+                                stateCB.setEnabled(true);
+                                stateCB.setSelectedIndex(0);
+                                stateCB.setEnabled(false);
+                            }
+                            Global.workflag = !Global.workflag;
+                        }
+                    });
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                timer.stop();  // Stop the Timer
+            }
         }
-    
-    } else {
-                String selectedItem = itemsSelectCB.getSelectedItem().toString();
-                               for (Project project : Global.projects) {
-                                                        if(selectedItem == project.name)project.addToBreak(1);
+    });
 
-                     
-        }
-    
-    }
-                              
-                              minutes++;
-                          }
-                                                    milisec++;
-                                                    
-                                 
-                                      
-                                                    
-                                                    
-                                                    
-                                                    
-          String seconds_string = String.format("%02d" , seconds);
-    String minutes_string = String.format("%02d" , minutes);
-    String Zero = "0"; 
-    if(seconds_string.length() == 1){
-             seconds_string = Zero.concat(seconds_string);
-    }
-        if(minutes_string.length() == 1){
-             minutes_string = Zero.concat(minutes_string);
-    }
-    String all = String.format(" %s:%s ", minutes_string, seconds_string);       
-                                                    
-                                 SwingUtilities.invokeLater(() -> {
-    ourClockLabel.setText(all);
-    
-    String s1;
-    if(Global.workflag){
-         s1= pomoTimeCB.getSelectedItem().toString();
-
-    
-    } else {
-                String selectedItem = itemsSelectCB.getSelectedItem().toString();
-               s1= breakTimeCB.getSelectedItem().toString();
- 
-    
-    }
-
-    
-    if(minutes == Integer.parseInt(s1)){
-        stopB.doClick();
-        if(Global.workflag){
-           workLabel.setText("break yeessss");
-        }else{
-        
-                       workLabel.setText("work!!");
-
-        }
-        Global.workflag = !Global.workflag;
-        
-    }
-        
-
-});                 
-                                                    
-                                                    
-                                                    
-                      } catch (Exception e){
-                      
-                      }
-                      
-                  }else {
-                      break;
-                      
-                  
-                  }
-              } 
-          }
-          
-          
-      };
-      flag = true;
-    
-      t.start();
-        // TODO add your handling code here:
+    flag = true;
+    timer.start(); // TODO add your handling code here:
     }//GEN-LAST:event_startBActionPerformed
 
     private void stopBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopBActionPerformed
-          
+          timer.stop();
            flag = false;
                    pomoTimeCB.setEnabled(true);
         breakTimeCB.setEnabled(true);
@@ -409,6 +409,7 @@ public class MainFrame extends javax.swing.JFrame {
            seconds =0; milisec = 0; minutes = 0;
            ourClockLabel.setText(" 00:00 "); 
            startB.setVisible(true);
+           stateCB.setEnabled(true);
            
         // TODO add your handling code here:
     }//GEN-LAST:event_stopBActionPerformed
@@ -428,6 +429,18 @@ public class MainFrame extends javax.swing.JFrame {
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
             loadProjectNames();        // TODO add your handling code here:
     }//GEN-LAST:event_formWindowGainedFocus
+
+    private void stateCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stateCBActionPerformed
+                           if (stateCB.getSelectedItem() == "break") {
+                            Global.workflag = false;
+                            workLabel.setText("break yeessss");
+                        } else {
+                            Global.workflag = true;
+                                                        workLabel.setText("work!!");
+
+                        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_stateCBActionPerformed
   
     /**
      * @param args the command line arguments
@@ -479,12 +492,14 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     public static javax.swing.JLabel ourClockLabel;
     private javax.swing.JButton pauseB;
     private javax.swing.JComboBox<String> pomoTimeCB;
     private javax.swing.JButton projectsB;
     private javax.swing.JButton startB;
+    private javax.swing.JComboBox<String> stateCB;
     private javax.swing.JButton stopB;
     private javax.swing.JLabel workLabel;
     // End of variables declaration//GEN-END:variables

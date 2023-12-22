@@ -38,9 +38,9 @@ public class Project {
           countH = mintues/60 ;
         
          countD = countH/24;
-         pomoTime.days = countD ;
-         pomoTime.hours = countH - countD*24;
-         pomoTime.minutes = mintues - countH*60; 
+         pomoTime.days += countD ;
+         pomoTime.hours += countH - countD*24;
+         pomoTime.minutes += mintues - countH*60; 
         
     }
     
@@ -51,9 +51,9 @@ public class Project {
           countH = mintues/60 ;
         
          countD = countH/24;
-         breakTime.days = countD ;
-         breakTime.hours = countH - countD*24;
-         breakTime.minutes = mintues - countH*60; 
+         breakTime.days += countD ;
+         breakTime.hours += countH - countD*24;
+         breakTime.minutes += mintues - countH*60; 
         
     }
     
