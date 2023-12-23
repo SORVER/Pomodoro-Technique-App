@@ -1,7 +1,9 @@
 # Pomodoro Technique Maker
 
 A simple and effective Pomodoro Technique application to boost productivity and manage your work and break intervals efficiently.
-![Test Image 4](https://i.ibb.co/0m9mcCV/photo-2023-12-24-00-43-36.jpg)
+
+![Test Image 4](pomodoroApp/images/photo_2023-12-24_00-43-36.jpg)
+
 ## Table of Contents
 
 - [Introduction](#introduction)
