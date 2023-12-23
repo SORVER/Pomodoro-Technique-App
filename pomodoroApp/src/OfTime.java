@@ -8,7 +8,9 @@
  *
  * @author Abdelsalam
  */
-public class OfTime {
+import java.io.Serializable;
+public class OfTime implements Serializable {
+    private static final long serialVersionUID = 1342423543566243L;
     int hours = 0 , minutes = 0, days = 0 ;
     OfTime(int d, int h, int m){
         this.hours = h;

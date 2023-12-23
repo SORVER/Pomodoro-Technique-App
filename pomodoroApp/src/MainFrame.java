@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.Timer;
 import java.awt.event.*;
-import static java.lang.Thread.sleep;
 import javax.swing.*;
 /**
  *
@@ -18,16 +19,22 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
+         private static void centerFrameOnScreen(JFrame frame) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - frame.getWidth()) / 2;
+        int y = (screenSize.height - frame.getHeight()) / 2;
+        frame.setLocation(x, y);
+    }
      
     public MainFrame() {
         initComponents();
         
         
-        
+        centerFrameOnScreen(this);
         Project temp = new Project();
         temp.name ="project0";
         Global.projects.add(temp);
-        loadProjectNames();
+        
         
         
     }
@@ -176,6 +183,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         workLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         workLabel.setForeground(new java.awt.Color(51, 51, 255));
+        workLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         workLabel.setText("work!!");
 
         stateCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pomodoro", "break" }));
@@ -231,11 +239,12 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGap(107, 107, 107)
                         .addComponent(projectsB, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(326, 326, 326)
-                        .addComponent(ourClockLabel))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(372, 372, 372)
-                        .addComponent(workLabel)))
+                        .addGap(334, 334, 334)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(workLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(ourClockLabel))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -245,8 +254,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addComponent(ourClockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(workLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(workLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(itemsSelectCB, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
@@ -256,9 +265,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(breakTimeCB, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(stateCB, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel6)))
+                    .addComponent(stateCB, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pauseB, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -285,7 +293,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_addProjectBActionPerformed
 
     private void pauseBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseBActionPerformed
-       if(flag == false) JOptionPane.showMessageDialog(null, "Press Start first");
+       if(flag == false) {JOptionPane.showMessageDialog(null, "Press Start first");return;}
         if(seconds != 0||  minutes != 0 || milisec != 0){
          pauseB.setVisible(false);
         }        
@@ -296,13 +304,14 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_pauseBActionPerformed
        public  void loadProjectNames() {
         int temp = itemsSelectCB.getSelectedIndex();
+        if(Global.projects.size() -1 < temp ) temp = -1;
         itemsSelectCB.removeAllItems(); // Clear existing items
 
         // Iterate through projects and add project names to the combo box
         for (Project project : Global.projects) {
             itemsSelectCB.addItem(project.name);
         }
-        if(temp == -1) temp =0;
+      
         itemsSelectCB.setSelectedIndex(temp);
     }
 
@@ -313,7 +322,13 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_projectsBActionPerformed
       
     private void startBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startBActionPerformed
-    pomoTimeCB.setEnabled(false);
+        if(itemsSelectCB.getSelectedIndex() == -1){
+     
+         JOptionPane.showMessageDialog(null, "Press Select a project");
+        return ;
+        
+    }
+      pomoTimeCB.setEnabled(false);
     breakTimeCB.setEnabled(false);
     itemsSelectCB.setEnabled(false);
     stateCB.setEnabled(false);
@@ -373,6 +388,7 @@ public class MainFrame extends javax.swing.JFrame {
 
                         if (minutes == Integer.parseInt(s1)) {
                             stopB.doClick();  // Stop the Timer
+                            JOptionPane.showMessageDialog(null, String.format("Finshed %s", stateCB.getSelectedItem()));
                             if (Global.workflag) {
                                 workLabel.setText("break yeessss");
                                 stateCB.setEnabled(true);
@@ -427,7 +443,8 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formFocusGained
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
-            loadProjectNames();        // TODO add your handling code here:
+ Global.loadProjectsFromFile();
+        loadProjectNames();        // TODO add your handling code here:
     }//GEN-LAST:event_formWindowGainedFocus
 
     private void stateCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stateCBActionPerformed

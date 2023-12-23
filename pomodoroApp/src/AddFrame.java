@@ -19,6 +19,7 @@ public class AddFrame extends javax.swing.JFrame {
      */
     public AddFrame() {
         initComponents();
+        setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -38,6 +39,11 @@ public class AddFrame extends javax.swing.JFrame {
         addLastB = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(51, 102, 255));
 
@@ -129,8 +135,8 @@ public class AddFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelAddBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelAddBActionPerformed
-        // TODO add your handling code here:
-         this.setVisible(false); 
+            // TODO add your handling code here:
+         this.setVisible(false);  this.dispose(); 
     }//GEN-LAST:event_cancelAddBActionPerformed
 
     private void nameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextActionPerformed
@@ -153,8 +159,13 @@ public class AddFrame extends javax.swing.JFrame {
            
                   this.setVisible(false);
                   Global.haveToLoad = true; 
+                  Global.saveProjectsToFile();
                   
     }//GEN-LAST:event_addLastBActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+             this.setVisible(false);        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

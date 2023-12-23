@@ -16,7 +16,8 @@ public class projectsFrame extends javax.swing.JFrame {
      */
     public projectsFrame() {
         initComponents();
-        
+        setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+          Global.loadProjectsFromFile();
           updateProjectsTable();
                 
         
@@ -52,10 +53,11 @@ public class projectsFrame extends javax.swing.JFrame {
         addProB = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         projectsTable = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        deleteProjectB = new javax.swing.JButton();
+        backB = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(500, 500));
+        setMinimumSize(new java.awt.Dimension(800, 500));
         setPreferredSize(new java.awt.Dimension(762, 500));
         addWindowFocusListener(new java.awt.event.WindowFocusListener() {
             public void windowGainedFocus(java.awt.event.WindowEvent evt) {
@@ -129,15 +131,26 @@ public class projectsFrame extends javax.swing.JFrame {
             }
         });
         projectsTable.setColumnSelectionAllowed(true);
+        projectsTable.setMaximumSize(new java.awt.Dimension(2147483647, 100));
+        projectsTable.setMinimumSize(new java.awt.Dimension(60, 90));
         jScrollPane1.setViewportView(projectsTable);
         projectsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        jButton2.setBackground(new java.awt.Color(51, 102, 255));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Back");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        deleteProjectB.setBackground(new java.awt.Color(51, 102, 255));
+        deleteProjectB.setForeground(new java.awt.Color(255, 255, 255));
+        deleteProjectB.setText("Delete Project");
+        deleteProjectB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                deleteProjectBActionPerformed(evt);
+            }
+        });
+
+        backB.setBackground(new java.awt.Color(51, 102, 255));
+        backB.setForeground(new java.awt.Color(255, 255, 255));
+        backB.setText("Back");
+        backB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBActionPerformed(evt);
             }
         });
 
@@ -148,18 +161,15 @@ public class projectsFrame extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(addProB, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 724, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49))))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(36, 36, 36)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(678, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 738, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(backB, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(375, 375, 375)
+                        .addComponent(deleteProjectB, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(addProB, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,13 +178,11 @@ public class projectsFrame extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addComponent(addProB, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addProB, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteProjectB, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(backB, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(424, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(26, 26, 26)))
         );
 
         pack();
@@ -182,17 +190,22 @@ public class projectsFrame extends javax.swing.JFrame {
 
     private void addProBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProBActionPerformed
                 AddFrame formadd1 = new AddFrame();
+                
                 formadd1.setVisible(true);                
 // TODO add your handling code here:
     }//GEN-LAST:event_addProBActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-            this.setVisible(false);         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void deleteProjectBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteProjectBActionPerformed
+             DeleteFrame deleteform = new DeleteFrame();
+             
+             deleteform.setVisible(true);
+// TODO add your handling code here:
+    }//GEN-LAST:event_deleteProjectBActionPerformed
 
     private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
           
-       updateProjectsTable();         
+        Global.loadProjectsFromFile();
+        updateProjectsTable();         
                    
                 
                   
@@ -204,8 +217,12 @@ public class projectsFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-         this.dispose();        // TODO add your handling code here:
+         this.setVisible(false);       // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosing
+
+    private void backBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBActionPerformed
+  this.setVisible(false);   this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_backBActionPerformed
 private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {                                          
     // Close the current sub-form
     this.dispose();
@@ -255,7 +272,8 @@ private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addProB;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton backB;
+    private javax.swing.JButton deleteProjectB;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

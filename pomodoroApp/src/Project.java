@@ -3,18 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-
+import java.io.Serializable;
 import java.time.LocalTime;
 /**
  *
  * @author Abdelsalam
  */
 
-public class Project {
+public class Project implements Serializable {
     String name;
     OfTime pomoTime = new OfTime(0,0,0);
             
      OfTime    breakTime = new OfTime(0,0,0) ;
+      private static final long serialVersionUID = 13421254356243L;
     
     String getPomoTime(){
          
