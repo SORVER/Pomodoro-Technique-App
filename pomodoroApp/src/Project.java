@@ -42,6 +42,7 @@ public class Project implements Serializable {
          pomoTime.days += countD ;
          pomoTime.hours += countH - countD*24;
          pomoTime.minutes += mintues - countH*60; 
+         Global.saveProjectsToFile();
         
     }
     
@@ -55,6 +56,7 @@ public class Project implements Serializable {
          breakTime.days += countD ;
          breakTime.hours += countH - countD*24;
          breakTime.minutes += mintues - countH*60; 
+         Global.saveProjectsToFile();
         
     }
     
